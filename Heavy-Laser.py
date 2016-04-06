@@ -1,7 +1,7 @@
 import sys
 
 from PySide.QtCore import Qt
-from PySide.QtGui import (QApplication, QWidget, QPainter, QColor, QLCDNumber, QVBoxLayout, QDesktopWidget)
+from PySide.QtGui import (QApplication, QWidget, QPainter, QColor, QLCDNumber, QVBoxLayout)
 
 
 class MainWidget(QWidget):
@@ -25,7 +25,6 @@ class MainWidget(QWidget):
     def keyPressEvent(self, event):
         if event.key() == Qt.Key_Escape:
             self.app.quit()
-            # self.close()
 
 
 if __name__ == '__main__':

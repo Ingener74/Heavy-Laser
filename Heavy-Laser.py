@@ -1,22 +1,28 @@
 import sys
 
-from PySide.QtCore import Qt
-from PySide.QtGui import (QApplication, QWidget, QPainter, QColor, QLCDNumber, QVBoxLayout)
+from PySide.QtCore import (Qt, QTimer, QTime)
+from PySide.QtGui import (QApplication, QWidget, QPainter, QColor)
+from blackclockwidget import Ui_BlackClock
 
 
-class MainWidget(QWidget):
+class MainWidget(QWidget, Ui_BlackClock):
     def __init__(self, application, parent=None):
         QWidget.__init__(self, parent)
+        self.setupUi(self)
 
         self.app = application
 
-        self.clock = QLCDNumber()
-        self.clock.display("00")
+        pal = self.lcdNumber.palette()
 
-        l1 = QVBoxLayout()
-        l1.addChildWidget(self.clock)
+        pal.setColor(pal.WindowText, Qt.green)
 
-        self.setLayout(l1)
+        self.lcdNumber.setPalette(pal)
+
+        self.timer1 = QTimer(self)
+        self.timer1.timeout.connect(self.showTime)
+        self.timer1.start()
+
+        self.showTime()
 
     def paintEvent(self, *args, **kwargs):
         painter = QPainter(self)
@@ -25,6 +31,9 @@ class MainWidget(QWidget):
     def keyPressEvent(self, event):
         if event.key() == Qt.Key_Escape:
             self.app.quit()
+
+    def showTime(self):
+        self.lcdNumber.display(QTime.currentTime().toString("hh:mm"))
 
 
 if __name__ == '__main__':

@@ -47,6 +47,7 @@ if __name__ == '__main__':
         w.setGeometry(geometry)
         w.setWindowFlags(Qt.FramelessWindowHint)
         w.showFullScreen()
+        # w.show()
         wins.append(w)
 
     sys.exit(app.exec_())

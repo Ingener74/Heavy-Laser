@@ -1,39 +1,44 @@
 import sys
 
-from PySide.QtCore import (Qt, QTimer, QTime)
-from PySide.QtGui import (QApplication, QWidget, QPainter, QColor)
+from PySide2.QtCore import QTime, QTimer, Qt, Signal
+from PySide2.QtGui import QPainter, QColor, QPaintEvent, QKeyEvent
+from PySide2.QtWidgets import QApplication, QWidget
+
 from blackclockwidget import Ui_BlackClock
 
 
-class MainWidget(QWidget, Ui_BlackClock):
-    def __init__(self, application, parent=None):
-        QWidget.__init__(self, parent)
-        self.setupUi(self)
+class MainWidget(QWidget):
+    close_widget = Signal()
 
-        self.app = application
+    def __init__(self, parent=None):
+        super(MainWidget, self).__init__(parent)
+        self.ui = Ui_BlackClock()
+        self.ui.setupUi(self)
 
-        pal = self.lcdNumber.palette()
+        pal = self.ui.lcdNumber.palette()
 
-        pal.setColor(pal.WindowText, Qt.green)
+        pal.setColor(pal.WindowText, Qt.gray)
 
-        self.lcdNumber.setPalette(pal)
+        self.ui.lcdNumber.setPalette(pal)
 
         self.timer1 = QTimer(self)
-        self.timer1.timeout.connect(self.showTime)
+        self.timer1.timeout.connect(self.show_time)
         self.timer1.start()
 
-        self.showTime()
+        self.show_time()
 
-    def paintEvent(self, *args, **kwargs):
+    def paintEvent(self, event: QPaintEvent):
+        super().paintEvent(event)
         painter = QPainter(self)
         painter.fillRect(self.rect(), QColor(0, 0, 0, 255))
 
-    def keyPressEvent(self, event):
+    def keyPressEvent(self, event: QKeyEvent):
+        super().keyPressEvent(event)
         if event.key() == Qt.Key_Escape:
-            self.app.quit()
+            self.close_widget.emit()
 
-    def showTime(self):
-        self.lcdNumber.display(QTime.currentTime().toString("hh:mm"))
+    def show_time(self):
+        self.ui.lcdNumber.display(QTime.currentTime().toString("hh:mm"))
 
 
 if __name__ == '__main__':
@@ -41,12 +46,13 @@ if __name__ == '__main__':
 
     wins = []
     desktop = QApplication.desktop()
-    for i in xrange(0, desktop.screenCount()):
-        w = MainWidget(app)
+    for i in range(desktop.screenCount()):
+        w = MainWidget()
         geometry = desktop.screenGeometry(i)
         w.setGeometry(geometry)
         w.setWindowFlags(Qt.FramelessWindowHint)
         w.showFullScreen()
+        w.close_widget.connect(app.quit)
         # w.show()
         wins.append(w)
 

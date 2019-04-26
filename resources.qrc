@@ -1,5 +1,6 @@
 <RCC>
-    <qresource prefix="/main">
-        <file>laser_pointer_256.png</file>
-    </qresource>
+  <qresource prefix="/">
+    <file>start.png</file>
+    <file>main.png</file>
+  </qresource>
 </RCC>

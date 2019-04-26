@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1412</width>
-    <height>1075</height>
+    <width>1032</width>
+    <height>648</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -15,15 +15,15 @@
   </property>
   <property name="windowIcon">
    <iconset resource="resources.qrc">
-    <normaloff>:/main/laser_pointer_256.png</normaloff>:/main/laser_pointer_256.png</iconset>
+    <normaloff>:/main.png</normaloff>:/main.png</iconset>
   </property>
   <widget class="QLCDNumber" name="lcdNumber">
    <property name="geometry">
     <rect>
      <x>30</x>
      <y>30</y>
-     <width>1241</width>
-     <height>901</height>
+     <width>851</width>
+     <height>521</height>
     </rect>
    </property>
    <property name="frameShape">
